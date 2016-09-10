@@ -9,6 +9,8 @@ app.controller('leaderBoards',
 			$scope.gridData = [];
 			$scope.columnDefs = [];
 			$scope.leaderboard = "";
+			$scope.title = "";
+			$scope.show = false;
 
 			$scope.gridOptions = {
 				data: 'gridData',
@@ -23,9 +25,12 @@ app.controller('leaderBoards',
 					alert("Select Leaderboard");
 					return;
 				}
+				$scope.show = false;
 				$rest.all($scope.leaderboard).get('')
 				.then(function(data) {
+					$scope.title = $scope.leaderboard.split("/")[1].slice(0, -4);
 					$scope.buildGrid(data);
+					$scope.show = true;
 					//$scope.title = title;
 					//$scope.showGrid();
 				}, function() {
