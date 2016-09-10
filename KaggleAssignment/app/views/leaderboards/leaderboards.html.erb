@@ -1,0 +1,28 @@
+<div ng-controller = "leaderBoards">
+
+  <div class = "col-sm-2">
+    <label> View Leaderboard </label>
+    <%= select_tag "Leaderboards", options_for_select(@file_list), class: "form-control", "ng-model": "leaderboard", prompt: "Select Leaderboard" %> <br/>
+    <button style = "float: right" type = "button" class = "btn" ng-click = "getCsv()">Get Leaderboard</button>
+    <!--
+    <div id="wrapper">
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand">
+              <a href="#">
+                  Leader Boards
+              </a>
+          </li>
+          <% @file_list.each do |file| %>
+            <li><%= link_to file[0], "", "ng-click": "getCsv('#{file[1]}')" %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    -->
+  </div>
+
+  <div class = "col-sm-10">
+    <div class="gridStyle" ng-grid="gridOptions">
+  </div>
+</div>
