@@ -1,0 +1,2 @@
+python /home/harshit/TAship/Kaggle/downloadLeaderBoard.py
+at -f /home/harshit/TAship/Kaggle/friday.txt 10 pm FRI

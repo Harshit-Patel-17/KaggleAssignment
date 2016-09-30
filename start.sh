@@ -1,0 +1,1 @@
+at -f /home/harshit/TAship/Kaggle/friday.txt 10 pm FRI

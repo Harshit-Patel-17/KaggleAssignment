@@ -6,29 +6,39 @@ import urllib2
 from bs4 import BeautifulSoup
 import time
 import operator
+import sys
+
+def getDownloadedFileNames(filename):
+    with open(filename) as in_file:
+        return [file.strip() for file in in_file]
+
+root = "/home/harshit/TAship/Kaggle/"
+url = "https://www.kaggle.com/c/digit-recognizer/leaderboard"
+data_path = root + "KaggleAssignment/public/leaderboards/"
+teams_path = data_path + "teams.txt"
+filename = time.strftime("%d-%b-%Y") + ".csv"
+downloadedFiles = getDownloadedFileNames(data_path + "files.txt")
+
+with open(teams_path) as in_file:
+    teams = [smart_str(line.strip()) for line in in_file if line.strip() != ""]
 
 def parse(html):
-    records = [["Rank", "Team", "Score"]]
+    records = [["Rank", "Team", "Score", "IITD_Students"]]
     soup = BeautifulSoup(html)
     leaderNos = soup.findAll("td", {"class": "leader-number"})
     teamNames = soup.findAll("a", {"class": "team-link"})
     scores = soup.findAll("abbr", {"class": "score"})
     total_records = len(leaderNos)
     for i in range(total_records):
-        leaderNo = smart_str(leaderNos[i].text).strip()
-        teamName = smart_str(teamNames[i].text).strip()
-        score = smart_str(scores[i].text).strip()
-        records.append([leaderNo, teamName, score])
+        leaderNo = smart_str(leaderNos[i].text.strip())
+        teamName = smart_str(teamNames[i].text.strip())
+        score = smart_str(scores[i].text.strip())
+        iitd_students = "No"
+        if teamName in teams:
+            iitd_students = "Yes"
+        #print([leaderNo, teamName, score, iitd_students])
+        records.append([leaderNo, teamName, score, iitd_students])
     return records
-
-def getDownloadedFileNames(filename):
-    with open(filename) as in_file:
-        return [file.strip() for file in in_file]
-
-url = "https://www.kaggle.com/c/digit-recognizer/leaderboard"
-data_path = "KaggleAssignment/public/leaderboards/"
-filename = time.strftime("%d-%b-%Y") + ".csv"
-downloadedFiles = getDownloadedFileNames(data_path + "files.txt")
 
 if(filename not in downloadedFiles):
     response = urllib2.urlopen(url)

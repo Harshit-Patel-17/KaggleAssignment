@@ -11,11 +11,15 @@ app.controller('leaderBoards',
 			$scope.leaderboard = "";
 			$scope.title = "";
 			$scope.show = false;
+			$scope.filterText = ""
+			$scope.checkbox = {}
 
 			$scope.gridOptions = {
 				data: 'gridData',
 				columnDefs: 'columnDefs',
 				showFooter: true,
+				filterOptions: {filterText: "", useExternalFilter: false},
+				enableFiltering: true,
 				plugins: [new ngGridFlexibleHeightPlugin()]
 			};
 
@@ -36,6 +40,14 @@ app.controller('leaderBoards',
 				}, function() {
 					alert("Error in fetching data...");
 				});
+			};
+
+			$scope.setFilter = function()
+			{
+				if($scope.checkbox.checked)
+					$scope.gridOptions.filterOptions.filterText = "IITD_Students: Yes";
+				else
+					$scope.gridOptions.filterOptions.filterText = "";
 			};
 
 			$scope.buildGrid = function(data) {
