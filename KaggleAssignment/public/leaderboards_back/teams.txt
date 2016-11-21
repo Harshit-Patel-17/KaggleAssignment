@@ -1,5 +1,5 @@
 Sharks
-Charmender
+Charmander
 dauntless
 SoundOfSilence
 ML Learners
@@ -17,7 +17,7 @@ Havoc
 Quantifier
 EhMadan
 krag!
-Soap
+soap
 fsociety
 ShashwatVerma
 da3m0ns

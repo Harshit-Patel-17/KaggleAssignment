@@ -1,2 +1,2 @@
-python /home/harshit/TAship/Kaggle/downloadLeaderBoard.py
-at -f /home/harshit/TAship/Kaggle/monday.txt 10 pm MON
+python /home/baadalvm/KaggleAssignment/downloadLeaderBoard.py
+at -f /home/baadalvm/KaggleAssignment/monday.txt 10 pm MON

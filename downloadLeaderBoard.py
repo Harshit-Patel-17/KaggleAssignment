@@ -12,7 +12,7 @@ def getDownloadedFileNames(filename):
     with open(filename) as in_file:
         return [file.strip() for file in in_file]
 
-root = "/home/harshit/TAship/Kaggle/"
+root = "/home/baadalvm/KaggleAssignment/"
 url = "https://www.kaggle.com/c/digit-recognizer/leaderboard"
 data_path = root + "KaggleAssignment/public/leaderboards/"
 teams_path = data_path + "teams.txt"
@@ -60,23 +60,46 @@ if(filename not in downloadedFiles):
             raise UnboundLocalError
 
 scores = {}
+scores_percentile = {}
 downloadedFiles = getDownloadedFileNames(data_path + "files.txt")
 total_leaderboards = len(downloadedFiles)
 for file in downloadedFiles:
     leaderboard = pd.read_csv(data_path + file, delimiter="\t", skipinitialspace=True)
+    total_rows = len(leaderboard.index)
+    ranks_below = total_rows - 1
+
     for row in leaderboard.iterrows():
-        team = row[1]["Team"]
+        rank = row[1]["Rank"]
+	team = row[1]["Team"]
         score = row[1]["Score"]
         if(team not in scores):
             scores[team] = score / total_leaderboards
+            scores_percentile[team] = 1.0 * ranks_below / total_rows / total_leaderboards
         else:
             scores[team] += score / total_leaderboards
+            scores_percentile[team] += 1.0 * ranks_below / total_rows / total_leaderboards
+	ranks_below -= 1
 
 sorted_scores = sorted(scores.items(), key=operator.itemgetter(1))
 sorted_scores.reverse()
-records = [["Rank", "Team", "Score"]]
+records = [["Rank", "Team", "Score", "IITD_Students"]]
 for i in range(len(sorted_scores)):
-    records.append([i] + list(sorted_scores[i]))
+    IITD_Students = "No"
+    if(sorted_scores[i][0] in teams):
+        IITD_Students = "Yes"
+    records.append([i] + list(sorted_scores[i]) + [IITD_Students])
 with open(data_path + "average.csv", "wb") as out_file:
+    writer = csv.writer(out_file, delimiter='\t')
+    writer.writerows(records)
+
+sorted_scores_perc = sorted(scores_percentile.items(), key=operator.itemgetter(1))
+sorted_scores_perc.reverse()
+records = [["Rank", "Team", "Percentile_Score", "IITD_Students"]]
+for i in range(len(sorted_scores_perc)):
+    IITD_Students = "No"
+    if(sorted_scores_perc[i][0] in teams):
+        IITD_Students = "Yes"
+    records.append([i] + list(sorted_scores_perc[i]) + [IITD_Students])
+with open(data_path + "avg_percentile.csv", "wb") as out_file:
     writer = csv.writer(out_file, delimiter='\t')
     writer.writerows(records)

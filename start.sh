@@ -1,1 +1,1 @@
-at -f /home/harshit/TAship/Kaggle/friday.txt 10 pm FRI
+at -f /home/baadalvm/KaggleAssignment/monday.txt 10 pm MON
